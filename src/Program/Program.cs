@@ -35,7 +35,6 @@ namespace CompAndDel
             grayImage = save.Filter(grayImage);
 
             // Compruebo si hay cara o no
-            
             if (cond.Face == false)
             {
                 // se aplica filtro negativo si no hay cara
