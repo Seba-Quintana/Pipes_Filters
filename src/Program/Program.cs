@@ -24,8 +24,18 @@ namespace CompAndDel
             IPipe pipeNull = new PipeNull();
             IPipe negPipe = new PipeSerial(filterNegative, pipeNull);
 
-            // Compruebo si hay cara o no
             PipeSerial condicion = new PipeSerial(cond, negPipe);
+
+            // Aplico filtro escala de grises en pipe
+            IFilter filterGreyscale = new FilterGreyscale();
+            IPipe grayPipe = new PipeSerial(filterGreyscale, condicion);
+
+            // Guardo filtro escala de grises en imagen
+            IPicture grayImage = grayPipe.Send(picture);
+            grayImage = save.Filter(grayImage);
+
+            // Compruebo si hay cara o no
+            
             if (cond.Face == false)
             {
                 // se aplica filtro negativo si no hay cara
@@ -38,16 +48,6 @@ namespace CompAndDel
                 // Se sube a twitter la imagen
                 upload.Filter($"No Face test {i}", @$"paso{i}");
             }
-
-
-            // Aplico filtro escala de grises en pipe
-            IFilter filterGreyscale = new FilterGreyscale();
-            IPipe grayPipe = new PipeSerial(filterGreyscale, condicion);
-
-            // Guardo filtro escala de grises en imagen // Si mando negImage se cancela el filtro neg con el filtro neg y queda escala de grises. Si mando picture se aplican las dos a la vez
-            IPicture grayImage = grayPipe.Send(picture);
-            grayImage = save.Filter(grayImage);
-            //upload.Filter($"prueba Luke {i}", @$"paso{i}");
         }
     }
 }
