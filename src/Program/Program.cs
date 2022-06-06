@@ -31,6 +31,7 @@ namespace CompAndDel
                 // se aplica filtro negativo si no hay cara
                 IPicture negImage = negPipe.Send(picture);
                 negImage = save.Filter(negImage);
+                i++;
             }
             else
             {
@@ -46,7 +47,6 @@ namespace CompAndDel
             // Guardo filtro escala de grises en imagen // Si mando negImage se cancela el filtro neg con el filtro neg y queda escala de grises. Si mando picture se aplican las dos a la vez
             IPicture grayImage = grayPipe.Send(picture);
             grayImage = save.Filter(grayImage);
-            i++;
             //upload.Filter($"prueba Luke {i}", @$"paso{i}");
         }
     }
